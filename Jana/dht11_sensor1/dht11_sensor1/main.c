@@ -126,7 +126,7 @@ uint8_t Receive_data()							/* receive data */
 int main(void)
 {
 	char data[5];
-	DDRC=0xff;
+	DDRC |= 1 << PINC0;
 	lcdinit();					/* initialize LCD */
 	lcd_clear();				/* clear LCD */
 	lcd_gotoxy(0,0);			/* enter column and row position */
@@ -178,49 +178,25 @@ int main(void)
 		
 		_delay_ms(500);
 		
-		if ((I_Temp + D_Temp) <= 24)
-		{
-			
-			lcd_gotoxy(0,1);
-			lcd_print("H ON");
-			
-			//PORTB=(1<<PINB0);
-			//PORTB=(0<<PINB1);
-			//PORTC=(0<<PINC0);
-			
-			//DDRB |= (1<<0);
-			
-			
-		}
-		if ((I_Temp + D_Temp) >= 30)
-		{
-			
-			
-			lcd_gotoxy(5,1);
-			lcd_print("FA ON");
-			
-			//PORTB=(0<<PINB0);
-			//PORTB=(1<<PINB1);
-			//PORTC=(1<<PINC0);
-			//DDRB |= (1<<1);
-			
-		}
+		
+		
 		if ((I_RH + D_RH ) <=75)
 		{
 			
-			lcd_gotoxy(11,1);
-			lcd_print("FO ON");
-			//PORTE=(1<<PINE0);
+			lcd_gotoxy(0,1);
+			lcd_print("FOGGER ON ");
+			PORTC |= 1 << PINC0;
+			
 		}
 		
-		/*else
+		else
 		{
-			lcd_gotoxy(0,0);
-			lcd_print("fogger off");
-			PORTE=(0<<PINE0);
+			lcd_gotoxy(0,1);
+			lcd_print("FOGGER OFF");
+			PORTC &= ~(1 << PINC0);
 
 			
-		}*/
+		}
 		_delay_ms(100);
 		
 	}
